@@ -1,6 +1,6 @@
 {
   "name": "@rustling-pines/typesafe-locale-generator",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "clean": "rm -rf dist",
     "build": "tsc",
@@ -13,7 +13,7 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "author": "pradeep.betty@gmail.com",
+  "author": "Pradeep R <pradeep.betty@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/Rustling-Pines/typesafe-locale-generator#readme",
   "repository": {
@@ -26,6 +26,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "dependencies": {
     "dotenv": "^16.4.7",
     "fs-extra": "^11.2.0",
