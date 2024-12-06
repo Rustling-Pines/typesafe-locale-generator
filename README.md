@@ -12,6 +12,7 @@ A TypeScript-based tool to generate locale JSON files for i18n frameworks with t
 - 🚀 **Lazy Loading Support:** Translations are stored as external JSON files, enabling efficient lazy loading at runtime. This ensures translation files are loaded only when needed, reducing initial load times.
 - 📉 **Reduced Bundle Size:** Keeps your application lightweight by excluding translation definitions from the final bundle.
 - ✅ **Consistency Across Locales:** Ensures all keys are included in every locale, catching missing keys during TypeScript compilation.
+- ✨ **One-Place Key Updates:** Changing a translation key in one place automatically applies it across all locale files, eliminating the need for repetitive manual updates.
 - 🚀 **Automation:** Outputs are automatically generated during the build step, streamlining the internationalization workflow.
 - 📂 **Framework-Agnostic:** Works with any TypeScript-based framework, including React, Angular, and Vue.
 
@@ -33,6 +34,7 @@ client-app/
 │   │   │   ├── goodbye.msg.ts
 │   │   │   ├── login.msg.ts
 │   │   │   └── welcome.msg.ts
+│   │   │   └── ...
 │   │   └── index.ts
 ├── package.json
 └── tsconfig.json
@@ -48,6 +50,7 @@ client-app/
 │   │   │   ├── en-us.json
 │   │   │   ├── fr.json
 │   │   │   └── de.json
+│   │   │   └── ...
 ```
 
 ## Usage
