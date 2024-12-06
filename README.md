@@ -55,7 +55,7 @@ client-app/
 
 ## Usage
 
-### Step 1: Add generate-locales Command to Your Build Script in package.json
+### Step 1: Add *generate-locales* Command to Your Build Script in package.json
 
 ```bash
 "scripts": {
@@ -199,11 +199,11 @@ Type '{ key: "LOGIN"; "en-us": string; fr: string; de: string; es: string; }' is
 
 ### ⚠ Important
 
-This package is designed to generate JSON files from your translation definitions for lazy loading at runtime. The generated JSON files will not be bundled with your application, ensuring a smaller bundle size and efficient loading of translation files only when needed.
+This package is designed to generate JSON files from your translation definitions for **lazy loading** at runtime. The generated JSON files will not be bundled with your application, ensuring a smaller bundle size and efficient loading of translation files only when needed.
 
 ### ❗ Warning
 
-Do not reference the translations folder or its files directly in your project outside of the index.ts. Including these files elsewhere will cause them to be bundled into the application, defeating the purpose of lazy loading and increasing the bundle size.
+**Do not reference** the translations folder or its files directly in your project outside of the **src/translations/index.ts** Including these files elsewhere will cause them to be bundled into the application, defeating the purpose of lazy loading and increasing the bundle size.
 
 ### Example of Generated Output Files
 
