@@ -1,0 +1,62 @@
+{
+  "name": "@rustling-pines/typesafe-locale-generator",
+  "version": "0.0.1",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "tsc",
+    "start": "node dist/cli.js",
+    "prepare": "npm run build",
+    "clean-build-start": "npm run clean && npm run build && npm start"
+  },
+  "bin": {
+    "generate-locales": "./dist/cli.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "pradeep.betty@gmail.com",
+  "license": "MIT",
+  "homepage": "https://github.com/Rustling-Pines/typesafe-locale-generator#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rustling-Pines/typesafe-locale-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Rustling-Pines/typesafe-locale-generator/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "fs-extra": "^11.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.10.1"
+  },
+  "description": "A TypeScript-based tool to generate locale JSON files for i18n frameworks with type safety. It ensures missing translations are caught during development, reducing errors and streamlining localization. Fully customizable input/output paths, compatible with frameworks like React, Angular, and Vue.",
+  "keywords": [
+    "typescript",
+    "i18n",
+    "i18n-helper",
+    "localization",
+    "translations",
+    "type-safe",
+    "locale-generator",
+    "locales-generator",
+    "json",
+    "internationalization",
+    "translation-helper",
+    "typescript-tools",
+    "react",
+    "angular",
+    "vue",
+    "type-safety",
+    "locale-files",
+    "developer-tools",
+    "json-generator",
+    "typescript-localization"
+  ]
+}

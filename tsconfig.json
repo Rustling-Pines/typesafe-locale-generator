@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "ES6", // Target ECMAScript 6 for compatibility
+        "module": "CommonJS", // Ensure CommonJS output
+        "strict": true, // Enable strict type-checking
+        "esModuleInterop": true, // Allow default imports for CommonJS modules
+        "moduleResolution": "node", // Use Node.js-style module resolution
+        "resolveJsonModule": true, // Allow importing JSON files
+        "declaration": true, // Generate .d.ts files for type declarations
+        "forceConsistentCasingInFileNames": true, // Enforce consistent file naming
+        "skipLibCheck": true, // Skip type checking of declaration files
+        "outDir": "./dist" // Output directory for transpiled files
+    },
+    "include": [
+        "src/**/*"
+    ], // Include all files in the src folder
+    "exclude": [
+        "node_modules",
+        "dist",
+        "src/translations"
+    ] // Exclude node_modules and dist folder
+}
