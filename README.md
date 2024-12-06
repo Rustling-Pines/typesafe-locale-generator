@@ -18,8 +18,10 @@ A TypeScript-based tool to generate locale JSON files for i18n frameworks with t
 
 ## Installation
 
+Install the package as a development dependency:
+
 ```bash
-npm install @rustling-pines/typesafe-locale-generator
+npm install typesafe-locale-generator --save-dev
 ```
 
 ## Default Project Structure
