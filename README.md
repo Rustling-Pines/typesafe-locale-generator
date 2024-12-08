@@ -5,20 +5,21 @@ A TypeScript-based tool to generate locale JSON files for i18n frameworks with t
 
 ## Features
 
-- 🛡 **Type Safety:** Ensures compile-time validation of translation keys and locales.
-- 🌍 **Customizable Paths:** Easily configure input and output directories via environment variables.
-- 🛠 **Helper for Translation Libraries:** Works seamlessly as a helper for other translation libraries like `i18n` while providing type safety to eliminate runtime errors.
-- 🔄 **Localized JSON Output:** Automatically generates JSON files for each locale, ready to be used with popular translation libraries like `react-i18next`, `ngx-translate`, and `vue-i18n`.
-- 🚀 **Lazy Loading Support:** Translations are stored as external JSON files, enabling efficient lazy loading at runtime. This ensures translation files are loaded only when needed, reducing initial load times.
-- 📉 **Reduced Bundle Size:** Keeps your application lightweight by excluding translation definitions from the final bundle.
-- ✅ **Consistency Across Locales:** Ensures all keys are included in every locale, catching missing keys during TypeScript compilation.
-- ✨ **One-Place Key Updates:** Changing a translation key in one place automatically applies it across all locale files, eliminating the need for repetitive manual updates.
-- 🚀 **Automation:** Outputs are automatically generated during the build step, streamlining the internationalization workflow.
-- 📂 **Framework-Agnostic:** Works with any TypeScript-based framework, including React, Angular, and Vue.
-
+- 🛡 **Type Safety:** Validates translation keys and locales at development time to catch issues early.
+- ✅ **Consistency Across Locales:** Ensures all keys are present in every locale, identifying missing translations during development.
+- 🌍 **Customizable Paths:** Configure input and output directories easily using environment variables.
+- 🌐 **Localized JSON Output:** Generates JSON files for each locale, ready to use with libraries like `react-i18next`, `ngx-translate`.
+- 🧩 **Interpolation Support:** Supports placeholders like `{name}` and `{count}`, enabling dynamic runtime replacements.
+- 🚀 **Automation:** Automatically generates locale files during the build step, streamlining the workflow.
+- ✨ **One-Place Key Updates:** Modify a key once, and updates propagate across all locale files.
+- 🤝 **Helper for Translation Libraries:** Works as a helper for libraries like `i18n`, adding type safety to eliminate runtime errors.
+- ⏳ **Lazy Loading Support:** Translations are stored externally, enabling on-demand loading to reduce initial load times.
+- 📉 **Reduced Bundle Size:** Excludes translation definitions from the final bundle, keeping your app lightweight.
+- 📂 **Framework-Agnostic:** Compatible with React, Angular, Vue, and other TypeScript-based frameworks.
+  
 ## Installation
 
-Install the package as a development dependency:
+Install the package as a **dev dependency**:
 
 ```bash
 npm install typesafe-locale-generator --save-dev
@@ -27,6 +28,9 @@ npm install typesafe-locale-generator --save-dev
 ## Default Project Structure
 
 ### Input Directory
+
+> ✅ Feel free to **create as many Message files as you want**. These files **will not be bundled** or sent to the browser.
+> The **Input Directory**, where translations are defined, is used solely during the build process.
 
 ```bash
 client-app/
@@ -42,7 +46,9 @@ client-app/
 └── tsconfig.json
 ```
 
-### Output (Auto Generated)
+### Output
+
+> 🚀 Auto Generated during build process
 
 ```bash
 client-app/
@@ -55,19 +61,10 @@ client-app/
 │   │   │   └── ...
 ```
 
-## Usage
+#### Optional: Customize Input and Output Directories via Environment Variables (.env)
 
-### Step 1: Add *generate-locales* Command to Your Build Script in package.json
-
-```bash
-"scripts": {
-    "build": "generate-locales && react-scripts build",
-  }
-```
-
-### Optional: Configure Environment Variables (.env)
-
-You can customize the input and output paths for the locale files by setting the following environment variables in a .env file at the root of your project:
+You can customize the input and output paths for the locale files by setting the following variables in a .env file at the root of your project:
+*This flexibility allows you to integrate the package into projects with varying directory structures.*
 
 ```bash
 # Specify the location of the input file
@@ -78,32 +75,46 @@ LOCALES_OUTPUT_DIRECTORY=src/i18n/locales
 ```
 
 > By default, the package will use the following locations if these variables are not set:
-    • *Input File*: **src/translations/index.ts**
-    • *Output Directory*: **src/i18n/locales**
-> This flexibility allows you to integrate the package into projects with varying directory structures.
+• *Input File*: **src/translations/index.ts**
+• *Output Directory*: **src/i18n/locales**
+
+## Usage
+
+### Step 1: Add *generate-locales* Command to Your Build Script in package.json
+
+```bash
+"scripts": {
+    "build": "generate-locales && react-scripts build",
+  }
+```
 
 ### Step 2: Define Translation Keys and Locales
 
-You can define translations directly in the `index.ts` file or reference them from a dedicated folder for a cleaner implementation.
+> You can define translations for each message in a dedicated folder for cleaner organization, or directly in the index.ts file for smaller projects.
 
-#### **Approach 1: Define Translations Directly**
+#### Approach 1: Define Translations Directly
 
 You can directly provide the translations in the `index.ts` file:
+**File: `src/translations/index.ts`**
 
 ```typescript
 import { ITranslations } from "@rustling-pines/typesafe-locale-generator";
 
+// 1. Define the locales for your application (JSON files will be generated for each locale).
 export const locales = ['en-us', 'fr', 'de', 'es', 'jp'] as const;
+
+// 2. Derive Type from the locales array
 export type Locales = typeof locales[number];
 
+// 3. Use the derived Locales type to enforce type safety in translations.
 export const translations: ITranslations<Locales>[] = [
     {
-        key: 'WELCOME',
-        'en-us': 'Welcome',
-        fr: 'Bienvenue',
-        de: 'Willkommen',
-        es: 'Bienvenido',
-        jp: 'ようこそ',
+        key: 'WELCOME_MESSAGE',
+        'en-us': 'Welcome, {name}!',
+        fr: 'Bienvenue, {name}!',
+        de: 'Willkommen, {name}!',
+        in: 'स्वागत है, {name}!',
+        jp: '{name} さん、ようこそ！',
     },
     {
         key: 'LOGIN',
@@ -113,12 +124,53 @@ export const translations: ITranslations<Locales>[] = [
         es: 'Iniciar sesión',
         jp: 'ログイン',
     },
+    // ...
 ];
 ```
 
 #### **Approach 2: Define Translations in Separate Files**
 
-For better organization, you can keep translations in a `messages` folder (or any folder of your choice) and import them into `index.ts`:
+For better organization, you can keep translations in a `messages` folder (**or any folder of your choice**) and import them into `index.ts`:
+**This approach is especially useful for large projects with extensive translations.**
+
+**File: `src/translations/index.ts`**
+
+```typescript
+import { ITranslations } from "@rustling-pines/typesafe-locale-generator";
+import { WelcomeMessage } from "./messages/welcome.msg";
+import { GoodbyeMessage } from "./messages/goodbye.msg";
+import { LoginMessage } from "./messages/login.msg";
+
+// 1. Define the locales for your application (JSON files will be generated for each locale).
+export const locales = ['en-us', 'fr', 'de', 'es', 'jp'] as const;
+
+// 2. Derive Type from the locales array
+export type Locales = typeof locales[number];
+
+// 3. Use the derived Locales type to enforce type safety in translations.
+export const translations: ITranslations<Locales>[] = [
+    WelcomeMessage,
+    GoodbyeMessage,
+    LoginMessage,
+];
+```
+
+**File: `src/translations/messages/wleome.msg.ts`**
+
+```typescript
+import { ITranslations } from "@rustling-pines/typesafe-locale-generator";
+import { Locales } from "..";
+
+// {name} - placeholder
+export const WelcomeMessage: ITranslations<Locales> = {
+    key: 'WELCOME_MESSAGE',
+    'en-us': 'Welcome, {name}!',
+    fr: 'Bienvenue, {name}!',
+    de: 'Willkommen, {name}!',
+    in: 'स्वागत है, {name}!',
+    jp: '{name} さん、ようこそ！',
+};
+```
 
 **File: `src/translations/messages/goodbye.msg.ts`**
 
@@ -152,32 +204,6 @@ export const LoginMessage: ITranslations<Locales> = {
 };
 ```
 
-**File: `src/translations/index.ts`**
-
-```typescript
-import { ITranslations } from "@rustling-pines/typesafe-locale-generator";
-import { GoodbyeMessage } from "./messages/goodbye.msg";
-import { LoginMessage } from "./messages/login.msg";
-
-export const locales = ['en-us', 'fr', 'de', 'es', 'jp'] as const;
-export type Locales = typeof locales[number];
-
-export const translations: ITranslations<Locales>[] = [
-    // Direct translations
-    {
-        key: 'WELCOME',
-        'en-us': 'Welcome',
-        fr: 'Bienvenue',
-        de: 'Willkommen',
-        es: 'Bienvenido',
-        jp: 'ようこそ',
-    },
-    // Cleaner, modular approach
-    GoodbyeMessage,
-    LoginMessage,
-];
-```
-
 ### Example of a Missing Locale Error
 
 If a locale is missing for a translation, TypeScript will throw a compile-time error. For instance, removing `jp` from the `LoginMessage` in `login.msg.ts`:
@@ -209,11 +235,13 @@ This package is designed to generate JSON files from your translation definition
 
 ### Example of Generated Output Files
 
+> Below are examples of the JSON files generated for each locale. These files are structured for use with translation libraries like i18n.
+
 #### **File: `public/i18n/locales/en-us.json`**
 
 ```json
 {
-    "WELCOME": "Welcome",
+    "WELCOME": "Welcome {name}",
     "LOGIN": "Login",
     "GOODBYE": "Goodbye"
 }
@@ -223,7 +251,7 @@ This package is designed to generate JSON files from your translation definition
 
 ```json
 {
-    "WELCOME": "Bienvenue",
+    "WELCOME": "Bienvenue {name}",
     "LOGIN": "Connexion",
     "GOODBYE": "Au revoir"
 }
@@ -233,7 +261,7 @@ This package is designed to generate JSON files from your translation definition
 
 ```json
 {
-    "WELCOME": "Willkommen",
+    "WELCOME": "Willkommen {name}",
     "LOGIN": "Anmelden",
     "GOODBYE": "Auf Wiedersehen"
 }
@@ -243,7 +271,7 @@ This package is designed to generate JSON files from your translation definition
 
 ```json
 {
-    "WELCOME": "Bienvenido",
+    "WELCOME": "Bienvenido {name}",
     "LOGIN": "Iniciar sesión",
     "GOODBYE": "Adiós"
 }
@@ -253,7 +281,7 @@ This package is designed to generate JSON files from your translation definition
 
 ```json
 {
-    "WELCOME": "ようこそ",
+    "WELCOME": "{name} さん、ようこそ！",
     "LOGIN": "ログイン",
     "GOODBYE": "さようなら"
 }
