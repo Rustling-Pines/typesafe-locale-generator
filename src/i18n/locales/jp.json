@@ -1,0 +1,26 @@
+[
+  {
+    "Key": "GOODBYE",
+    "Value": "さようなら"
+  },
+  {
+    "Key": "LOGIN",
+    "Value": "ログイン"
+  },
+  {
+    "Key": "LOGOUT",
+    "Value": "ログアウト"
+  },
+  {
+    "Key": "SAVE_SUCCESS",
+    "Value": "保存に成功しました"
+  },
+  {
+    "Key": "SUCCESS",
+    "Value": "成功"
+  },
+  {
+    "Key": "WELCOME_MESSAGE",
+    "Value": "{name} さん、ようこそ！"
+  }
+]

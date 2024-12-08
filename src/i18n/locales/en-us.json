@@ -1,0 +1,26 @@
+[
+  {
+    "Key": "GOODBYE",
+    "Value": "Goodbye"
+  },
+  {
+    "Key": "LOGIN",
+    "Value": "Login"
+  },
+  {
+    "Key": "LOGOUT",
+    "Value": "Logout"
+  },
+  {
+    "Key": "SAVE_SUCCESS",
+    "Value": "Save Successful"
+  },
+  {
+    "Key": "SUCCESS",
+    "Value": "Success"
+  },
+  {
+    "Key": "WELCOME_MESSAGE",
+    "Value": "Welcome, {name}!"
+  }
+]

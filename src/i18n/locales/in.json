@@ -1,0 +1,26 @@
+[
+  {
+    "Key": "GOODBYE",
+    "Value": "अलविदा"
+  },
+  {
+    "Key": "LOGIN",
+    "Value": "लॉगिन"
+  },
+  {
+    "Key": "LOGOUT",
+    "Value": "लॉगआउट"
+  },
+  {
+    "Key": "SAVE_SUCCESS",
+    "Value": "सफलतापूर्वक सहेजा गया"
+  },
+  {
+    "Key": "SUCCESS",
+    "Value": "सफलता"
+  },
+  {
+    "Key": "WELCOME_MESSAGE",
+    "Value": "स्वागत है, {name}!"
+  }
+]
