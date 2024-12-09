@@ -7,7 +7,7 @@ A TypeScript-based tool to generate locale JSON files for i18n frameworks with t
 
 - 🛡 **Type Safety:** Validates translation keys and locales at development time to catch issues early.
 - ✅ **Consistency Across Locales:** Ensures all keys are present in every locale, identifying missing translations during development.
-- 🌍 **Customizable Paths:** Configure input and output directories easily using environment variables.
+- 🌍 **Customizable Paths:** Flexibly set input and output directories via .env files, seamlessly adapting to diverse project structures.
 - 🌐 **Localized JSON Output:** Generates JSON files for each locale, ready to use with libraries like `react-i18next`, `ngx-translate`.
 - 🧩 **Interpolation Support:** Supports placeholders like `{name}` and `{count}`, enabling dynamic runtime replacements.
 - 🚀 **Automation:** Automatically generates locale files during the build step, streamlining the workflow.
@@ -61,9 +61,9 @@ client-app/
 │   │   │   └── ...
 ```
 
-#### Optional: Customize Input and Output Directories via Environment Variables (.env)
+#### Optional: Customize Input and Output Directories via Environment Variables
 
-You can customize the input and output paths for the locale files by setting the following variables in a .env file at the root of your project:
+You can customize the input and output paths for the locale files by setting the following variables in a `.env` file at the root of your project:
 *This flexibility allows you to integrate the package into projects with varying directory structures.*
 
 ```bash
@@ -74,9 +74,17 @@ TRANSLATIONS_INPUT_FILE=src/translations/index.ts
 LOCALES_OUTPUT_DIRECTORY=src/i18n/locales
 ```
 
-> By default, the package will use the following locations if these variables are not set:
-• *Input File*: **src/translations/index.ts**
-• *Output Directory*: **src/i18n/locales**
+> By **default**, the package will use the following locations if these variables are not set:
+> *Input File*: **src/translations/index.ts**
+> *Output Directory*: **src/i18n/locales**
+
+### ⚠ Important
+
+This package is designed to generate JSON files from your translation definitions for **lazy loading** at runtime. The generated JSON files **will not be bundled** with your application, ensuring a smaller bundle size and efficient loading of translation files only when needed.
+
+### ❗ Warning
+
+**Do not reference** the translations folder or its files directly in your project outside of the **src/translations/index.ts** (or your configured input path). Including these files elsewhere will cause them to be bundled into the application, defeating the purpose of lazy loading and increasing the bundle size.
 
 ## Usage
 
@@ -90,11 +98,12 @@ LOCALES_OUTPUT_DIRECTORY=src/i18n/locales
 
 ### Step 2: Define Translation Keys and Locales
 
-> You can define translations for each message in a dedicated folder for cleaner organization, or directly in the index.ts file for smaller projects.
+Translations can be organized in a **dedicated folder** for better structure **or defined directly** in the index.ts file for simpler projects.
 
 #### Approach 1: Define Translations Directly
 
-You can directly provide the translations in the `index.ts` file:
+For smaller projects, use the `index.ts` file to define translations in a concise and straightforward way.
+
 **File: `src/translations/index.ts`**
 
 ```typescript
@@ -130,8 +139,7 @@ export const translations: ITranslations<Locales>[] = [
 
 #### **Approach 2: Define Translations in Separate Files**
 
-For better organization, you can keep translations in a `messages` folder (**or any folder of your choice**) and import them into `index.ts`:
-**This approach is especially useful for large projects with extensive translations.**
+For larger projects, store translations in a `messages` folder (**or any folder of your choice**) and import them into the `index.ts` file within the input directory to enhance maintainability.
 
 **File: `src/translations/index.ts`**
 
@@ -155,7 +163,7 @@ export const translations: ITranslations<Locales>[] = [
 ];
 ```
 
-**File: `src/translations/messages/wleome.msg.ts`**
+**File: `src/translations/messages/welcome.msg.ts`**
 
 ```typescript
 import { ITranslations } from "@rustling-pines/typesafe-locale-generator";
@@ -206,7 +214,8 @@ export const LoginMessage: ITranslations<Locales> = {
 
 ### Example of a Missing Locale Error
 
-If a locale is missing for a translation, TypeScript will throw a compile-time error. For instance, removing `jp` from the `LoginMessage` in `login.msg.ts`:
+If a locale is missing for a translation, TypeScript will show a **type error during development**.
+For instance, removing `jp` from the `LoginMessage` in `login.msg.ts` will instantly flag the missing locale as a type error.
 
 ```typescript
 export const LoginMessage: ITranslations<Locales> = {
@@ -225,17 +234,20 @@ export const LoginMessage: ITranslations<Locales> = {
 Type '{ key: "LOGIN"; "en-us": string; fr: string; de: string; es: string; }' is missing the following properties from type 'ITranslations<Locales>': jp
 ```
 
-### ⚠ Important
+### Example of AutoGenerated Output Files
 
-This package is designed to generate JSON files from your translation definitions for **lazy loading** at runtime. The generated JSON files will not be bundled with your application, ensuring a smaller bundle size and efficient loading of translation files only when needed.
+Below is an example of the JSON files **automatically generated** for each **locale** using the **default configuration**.
 
-### ❗ Warning
-
-**Do not reference** the translations folder or its files directly in your project outside of the **src/translations/index.ts** Including these files elsewhere will cause them to be bundled into the application, defeating the purpose of lazy loading and increasing the bundle size.
-
-### Example of Generated Output Files
-
-> Below are examples of the JSON files generated for each locale. These files are structured for use with translation libraries like i18n.
+```bash
+client-app/
+├── src/
+│   ├── i18n/
+│   │   ├── locales/
+│   │   │   ├── en-us.json
+│   │   │   ├── fr.json
+│   │   │   └── de.json
+│   │   │   └── ...
+```
 
 #### **File: `public/i18n/locales/en-us.json`**
 
